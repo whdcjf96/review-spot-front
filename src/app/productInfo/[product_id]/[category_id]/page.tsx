@@ -29,7 +29,7 @@ export default function Page({
            
           </div>
           <article className="w-full h-full flex flex-col justify-center items-center mx-auto">
-            <ReviewsListComponent/>
+            <ReviewsListComponent items={[]} />
           </article>
         </div>
       </section>

@@ -6,7 +6,7 @@ export default function Page() {
   return (
     <main className="container-xl">
       <section className="p-8 flex flex-col space-y-20">
-        <ReviewsListComponent  />
+        <ReviewsListComponent items={[]} />
       </section>
     </main>
   );

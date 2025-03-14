@@ -2,18 +2,25 @@
 
 // ReviewsListComponent.tsx
 import { useState, useEffect } from "react";
-import { ReviewItem } from "@/types/types";
+import { ReviewItem, ReviewsListComponentProps } from "@/types/types";
 import ReviewsItemComponent from "./reviewsItemComponent";
 import Pagination from "../common/pagenationComponent";
 
-export default function ReviewsListComponent() {
-  const [reviews, setReviews] = useState<ReviewItem[]>([]);
+export default function ReviewsListComponent({ items }: ReviewsListComponentProps) {
+  const [reviews, setReviews] = useState<ReviewItem[]>(items || []);
   const [currentPage, setCurrentPage] = useState(1);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(!items);
   const [error, setError] = useState<string | null>(null);
   const itemsPerPage = 10; // 한 페이지에 보여줄 리뷰 수
 
   const fetchReviews = async () => {
+    // items가 제공된 경우 API 호출을 건너뜁니다
+    if (items) {
+      setReviews(items);
+      setIsLoading(false);
+      return;
+    }
+
     try {
       setIsLoading(true);
       setError(null);
@@ -66,8 +73,11 @@ export default function ReviewsListComponent() {
   };
 
   useEffect(() => {
-    fetchReviews();
-  }, [currentPage]); // 페이지가 변경될 때마다 데이터를 새로 불러옵니다
+    // items가 제공되지 않은 경우에만 API를 호출합니다
+    if (!items) {
+      fetchReviews();
+    }
+  }, [currentPage, items]); // items를 의존성 배열에 추가
 
   // 페이지 이동 함수
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
