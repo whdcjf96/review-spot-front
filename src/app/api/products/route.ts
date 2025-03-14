@@ -1,5 +1,7 @@
 "use server"
 
+export const dynamic = 'force-dynamic';
+
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
@@ -21,7 +23,11 @@ export async function GET(request: NextRequest) {
         if (sort) queryParams.append('sort', sort);
         if (page_num) queryParams.append('page_num', page_num);
 
-        const apiUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}/products/?${queryParams.toString()}`;
+        // 환경 변수가 없을 경우 기본값 설정
+        const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8000';
+        const apiUrl = `${apiBaseUrl}/products/?${queryParams.toString()}`;
+
+        console.log('API URL:', apiUrl); // URL 로깅 추가
 
         // AbortController를 사용하여 타임아웃 설정
         const controller = new AbortController();

@@ -1,5 +1,7 @@
 "use server"
 
+export const dynamic = 'force-dynamic';
+
 import { NextRequest, NextResponse } from "next/server";
 
 
@@ -18,7 +20,11 @@ export async function GET(
             );
         }
 
-        const apiUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}/products/detail?product_id=${params.id}&category_id=${category_id}`;
+        // 환경 변수가 없을 경우 기본값 설정
+        const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8000';
+        const apiUrl = `${apiBaseUrl}/products/detail?product_id=${params.id}&category_id=${category_id}`;
+
+        console.log('API URL for product detail:', apiUrl); // URL 로깅 추가
 
         const response = await fetch(apiUrl, {
             method: 'GET',

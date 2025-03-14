@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { NextRequest, NextResponse } from "next/server";
 
 // TLS 인증서 경고 무시 (개발 환경에서만 사용)
