@@ -1,9 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'standalone',
-  experimental: {
-    serverActions: true,
-  },
+  staticPageGenerationTimeout: 1000,
 };
 
 export default nextConfig;
